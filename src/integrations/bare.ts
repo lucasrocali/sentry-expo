@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
-import * as Updates from 'expo-updates';
 import {
   setExtras,
   setTags,
@@ -35,10 +34,8 @@ export class ExpoBareIntegration {
   name = ExpoBareIntegration.id;
 
   setupOnce() {
-    const manifest = Updates.manifest as any;
 
     setExtras({
-      manifest,
       deviceYearClass: Device.deviceYearClass,
       linkingUri: Constants.linkingUri,
     });
@@ -46,14 +43,6 @@ export class ExpoBareIntegration {
     setTags({
       deviceId: Constants.sessionId,
     });
-
-    if (typeof manifest === 'object') {
-      DEFAULT_TAGS.forEach((tag) => {
-        if (manifest.hasOwnProperty(tag.manifestName)) {
-          setTag(tag.tagName, manifest[tag.manifestName]);
-        }
-      });
-    }
 
     const defaultHandler = ErrorUtils.getGlobalHandler();
 
